@@ -30,4 +30,8 @@
 
 - (void)insertTagWithTitle:(NSString *)title atIndex:(NSUInteger)index;
 
+- (void)removeTagAtIndex:(NSUInteger)index;
+
+- (void)removeAllTags;
+
 @end

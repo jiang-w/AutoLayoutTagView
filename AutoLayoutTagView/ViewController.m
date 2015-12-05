@@ -9,6 +9,8 @@
 #import "ViewController.h"
 #import <Masonry.h>
 
+#define RGB(R,G,B)  [UIColor colorWithRed:(R)/255.0 green:(G)/255.0 blue:(B)/255.0 alpha:1.0]
+
 @interface ViewController ()
 
 @property(nonatomic, strong) AutoLayoutTagView *tagView;
@@ -36,7 +38,7 @@
 - (AutoLayoutTagView *)tagView {
     if (!_tagView) {
         _tagView = [[AutoLayoutTagView alloc] init];
-        _tagView.backgroundColor = [UIColor yellowColor];
+        _tagView.backgroundColor = RGB(225, 230, 235);
         _tagView.delegate = self;
         
         [_tagView setTagButtonStyleWithBlock:^(UIButton *button, NSUInteger index) {
