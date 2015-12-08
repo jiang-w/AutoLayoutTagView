@@ -41,7 +41,6 @@ typedef void(^buttonStyleBlock)(UIButton *button, NSUInteger index);
 
 - (void)setTagButtonStyleWithBlock:(void(^)(UIButton *button, NSUInteger index))callback {
     self.callback = callback;
-    
     if (self.tagButtons.count > 0) {
         [self.tagButtons enumerateObjectsUsingBlock:^(UIButton *btn, NSUInteger idx, BOOL *stop) {
             callback(btn, idx);
@@ -56,16 +55,13 @@ typedef void(^buttonStyleBlock)(UIButton *button, NSUInteger index);
 - (void)insertTagWithTitle:(NSString *)title atIndex:(NSUInteger)index {
     if (index <= self.tagButtons.count) {
         UIButton *tag = [UIButton buttonWithType:UIButtonTypeCustom];
-        [self.tagButtons insertObject:tag atIndex:index];
         [tag setTitle:title forState:UIControlStateNormal];
         
         [self setDefalutStyleWithButton:tag];
-        if (self.callback) {
-            self.callback(tag, index);
-        }
-        
-        [self insertSubview:tag atIndex:index];
         [tag addTarget:self action:@selector(tapbuttonEventHandle:) forControlEvents:UIControlEventTouchUpInside];
+        
+        [self.tagButtons insertObject:tag atIndex:index];
+        [self insertSubview:tag atIndex:index];
         
         if ((NSInteger)index <= _selectedIndex) {
             self.selectedIndex += 1;
@@ -79,7 +75,6 @@ typedef void(^buttonStyleBlock)(UIButton *button, NSUInteger index);
     if (index < self.tagButtons.count) {
         UIButton *tag = [self.tagButtons objectAtIndex:index];
         [self.tagButtons removeObject:tag];
-        
         [tag removeFromSuperview];
         
         if ((NSInteger)index <= self.selectedIndex) {
@@ -210,6 +205,12 @@ typedef void(^buttonStyleBlock)(UIButton *button, NSUInteger index);
         [self removeAllConstraints];
         for (UIButton *btn in self.tagButtons) {
             [self setConstraintOfTagButton:btn];
+        }
+        
+        if (self.callback) {
+            [self.tagButtons enumerateObjectsUsingBlock:^(UIButton *btn, NSUInteger idx, BOOL *stop) {
+                self.callback(btn, idx);
+            }];
         }
     }
     
