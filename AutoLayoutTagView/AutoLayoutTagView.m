@@ -25,13 +25,13 @@ typedef void(^buttonStyleBlock)(UIButton *button, NSUInteger index);
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
+        _maxLayoutWidth = frame.size.width;
         _tagButtons = [NSMutableArray array];
         _tagConstraints = [NSMutableArray array];
-        _selectedIndex = -1;
         _padding = UIEdgeInsetsMake(8, 8, 8, 8);
+        _selectedIndex = -1;
         _lineSpace = 8;
         _tagSpace = 8;
-        _maxLayoutWidth = frame.size.width;
     }
     return self;
 }
@@ -56,14 +56,17 @@ typedef void(^buttonStyleBlock)(UIButton *button, NSUInteger index);
     if (index <= self.tagButtons.count) {
         UIButton *tag = [UIButton buttonWithType:UIButtonTypeCustom];
         [tag setTitle:title forState:UIControlStateNormal];
+        [tag addTarget:self action:@selector(tapButtonEventHandle:) forControlEvents:UIControlEventTouchUpInside];
         
         [self setDefalutStyleWithButton:tag];
-        [tag addTarget:self action:@selector(tapbuttonEventHandle:) forControlEvents:UIControlEventTouchUpInside];
+        if (self.callback) {
+            self.callback(tag, index);
+        }
         
         [self.tagButtons insertObject:tag atIndex:index];
         [self insertSubview:tag atIndex:index];
         
-        if ((NSInteger)index <= _selectedIndex) {
+        if ((NSInteger)index <= self.selectedIndex) {
             self.selectedIndex += 1;
         }
         
@@ -98,7 +101,7 @@ typedef void(^buttonStyleBlock)(UIButton *button, NSUInteger index);
 
 #pragma mark - event
 
-- (void)tapbuttonEventHandle:(UIButton *)button {
+- (void)tapButtonEventHandle:(UIButton *)button {
     NSUInteger index = [self.tagButtons indexOfObject:button];
     self.selectedIndex = index;
 }
@@ -205,12 +208,6 @@ typedef void(^buttonStyleBlock)(UIButton *button, NSUInteger index);
         [self removeAllConstraints];
         for (UIButton *btn in self.tagButtons) {
             [self setConstraintOfTagButton:btn];
-        }
-        
-        if (self.callback) {
-            [self.tagButtons enumerateObjectsUsingBlock:^(UIButton *btn, NSUInteger idx, BOOL *stop) {
-                self.callback(btn, idx);
-            }];
         }
     }
     
