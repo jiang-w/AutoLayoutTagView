@@ -116,12 +116,13 @@ typedef void(^buttonStyleBlock)(UIButton *button, NSUInteger index);
             disSelectTag.selected = NO;
             
             if (self.delegate) {
-                if ([self.delegate respondsToSelector:@selector(autoLayoutTagView:disSelectTagButton:andIndex:)]) {
-                    [self.delegate autoLayoutTagView:self disSelectTagButton:disSelectTag andIndex:_selectedIndex];
+                if ([self.delegate respondsToSelector:@selector(autoLayoutTagView:dismissSelectTagButton:andIndex:)]) {
+                    [self.delegate autoLayoutTagView:self dismissSelectTagButton:disSelectTag andIndex:_selectedIndex];
                 }
             }
         }
         
+        _selectedIndex = index;
         if (index != -1) {
             UIButton *selectTag = self.tagButtons[index];
             selectTag.selected = YES;
@@ -132,7 +133,6 @@ typedef void(^buttonStyleBlock)(UIButton *button, NSUInteger index);
                 }
             }
         }
-        _selectedIndex = index;
     }
 }
 

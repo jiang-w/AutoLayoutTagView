@@ -60,7 +60,7 @@
     button.layer.borderColor = [UIColor orangeColor].CGColor;
 }
 
-- (void)autoLayoutTagView:(AutoLayoutTagView *)view disSelectTagButton:(UIButton *)button andIndex:(NSUInteger)index {
+- (void)autoLayoutTagView:(AutoLayoutTagView *)view dismissSelectTagButton:(UIButton *)button andIndex:(NSUInteger)index {
     button.layer.borderColor = [UIColor blackColor].CGColor;
 }
 

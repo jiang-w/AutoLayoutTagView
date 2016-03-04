@@ -12,7 +12,7 @@
 @protocol AutoLayoutTagViewDelegate <NSObject>
 
 - (void)autoLayoutTagView:(AutoLayoutTagView *)view didSelectTagButton:(UIButton *)button andIndex:(NSUInteger)index;
-- (void)autoLayoutTagView:(AutoLayoutTagView *)view disSelectTagButton:(UIButton *)button andIndex:(NSUInteger)index;
+- (void)autoLayoutTagView:(AutoLayoutTagView *)view dismissSelectTagButton:(UIButton *)button andIndex:(NSUInteger)index;
 
 @end
 
